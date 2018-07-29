@@ -17,7 +17,7 @@ Imports:
     tidyr,
     XML,
     magrittr,
-    rlang (>= 0.1.2)
+    rlang (>= 0.2.0)
 Suggests: 
     tesseract,
     knitr,

@@ -24,12 +24,13 @@ parse_word <- function(xml_word_node){
   dplyr::as_tibble(c(parse_obj_attrs(xml_word_node), word_node_list))
 }
 
+#' @importFrom rlang !!!
 #' @importFrom XML xmlApply
 #' @importFrom dplyr bind_rows mutate
 parse_obj <- function(l, f){
   obj_attr_list <- parse_obj_attrs(l)
   obj_df <- dplyr::bind_rows(XML::xmlApply(l, f))
-  dplyr::mutate(obj_df, rlang::UQS(obj_attr_list))
+  dplyr::mutate(obj_df, rlang::`!!!`(obj_attr_list))
 }
 
 #' @importFrom purrr partial
@@ -89,5 +90,5 @@ NULL
 #' @aliases          quo quos enquo sym syms ensym expr exprs enexpr quo_name
 #' @importFrom rlang quo quos enquo sym syms ensym expr exprs enexpr quo_name
 #' @export           quo quos enquo sym syms ensym expr exprs enexpr quo_name
-#' @importFrom rlang UQ UQS .data :=
+#' @importFrom rlang UQ UQS .data := !!! !!
 NULL
