@@ -30,7 +30,7 @@ parse_word <- function(xml_word_node){
 parse_obj <- function(l, f){
   obj_attr_list <- parse_obj_attrs(l)
   obj_df <- dplyr::bind_rows(XML::xmlApply(l, f))
-  dplyr::mutate(obj_df, rlang::`!!!`(obj_attr_list))
+  dplyr::mutate(obj_df, !!!(obj_attr_list))
 }
 
 #' @importFrom purrr partial

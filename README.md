@@ -8,7 +8,7 @@ wrangling. The package exposes hocr parcer, `hocr_parse`, which converts
 [XHTML format output](https://en.wikipedia.org/wiki/HOCR) into tidy
 tibble with one word per row. In addition to the columns exported by
 [`tesseract::ocr_data`](https://github.com/ropensci/tesseract), `hocr`
-outputs additional metadata ragrding organization of words into lines,
+outputs additional metadata regarding organization of words into lines,
 paragraphs, content areas and pages. Read more about hOCR specification
 [here](https://github.com/kba/hocr-spec).
 
@@ -37,17 +37,25 @@ devtools::install_github("dmi3kno/hocr")
 
 This is a basic example which shows you how to solve a common problem:
 
+``` r
+library(hocr)
+library(tesseract) # OCR
+library(tidyverse) # data wrangling and viz
+#devtools::install_github("thomasp85/patchwork")
+library(patchwork) # arranging plots
+```
+
 We will OCR a page from an old cookbook retrieved from archive.org\[1\]
 and enhanced using `magick` package (see image preparation script on
-github).
+[github](https://github.com/dmi3kno/hocr/blob/master/data-raw/prepare.R)).
 
 ``` r
 cupcakes <- system.file("extdata", "peanutbutter.png", package="hocr")
 
 
-recipe <- ocr(cupcakes, HOCR = TRUE) %>% 
-  hocr_parse() %>% 
-  tidy_tesseract()
+recipe <- tesseract::ocr(cupcakes, HOCR = TRUE) %>% 
+  hocr::hocr_parse() %>% 
+  hocr::tidy_tesseract()
 recipe
 #> # A tibble: 234 x 21
 #>    ocrx_word_id ocrx_word_bbox ocrx_word_conf ocrx_word_tag ocrx_word_value
@@ -75,7 +83,8 @@ Now that data is in the tidy format, lets render the page in ggplot and
 identify bounding boxes around words and paragraphs to illustrate the
 benefits of parsed document structure. `tesseract` outputs bboxes in
 upper-left corner coordinate system. We will transform all y-values to
-bottom-left scale and plot it alongside with the original picture.
+bottom-left scale and plot the bounding boxes alongside with the
+original picture, colored by `tesseract` confidence score.
 
 ``` r
 p1 <- recipe %>% 
@@ -88,7 +97,6 @@ p1 <- recipe %>%
   mutate(word_y1=max(page_y2)-word_y1,
          word_y2=max(page_y2)-word_y2) %>% 
     ggplot(aes(xmin=word_x1, ymin=word_y1, xmax=word_x2, ymax=word_y2))+
-    #geom_rect(aes()+
     geom_rect(aes(color=ocr_par_id, fill=ocrx_word_conf), show.legend = TRUE)+
   theme_minimal()+
   theme(panel.grid = element_blank(), 
