@@ -15,7 +15,9 @@ Imports:
     dplyr,
     purrr,
     tidyr,
-    XML
+    XML,
+    magrittr,
+    rlang (>= 0.1.2)
 Suggests: 
     tesseract,
     knitr,
