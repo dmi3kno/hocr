@@ -7,29 +7,31 @@ list_to_vec <- function(x){
   unlist(unname(x))
 }
 
-#' @importFrom XML xmlAttrs
+#' @importFrom xml2 xml_attrs
+#' @importFrom stats setNames
 parse_obj_attrs <- function(xml_node){
-  obj_att <- vec_to_list(XML::xmlAttrs(xml_node))
+  obj_att <- vec_to_list(xml2::xml_attrs(xml_node))
   obj_class <- obj_att$`class`
   names2keep <- setdiff(names(obj_att), "class")
-  setNames(lapply(names2keep, function(x) obj_att[[x]]), paste(obj_class, names2keep, sep = "_"))
+  stats::setNames(lapply(names2keep, function(x) obj_att[[x]]), paste(obj_class, names2keep, sep = "_"))
 }
 
-#' @importFrom XML xmlToList
+#' @importFrom xml2 xml_text xml_attrs
 #' @importFrom dplyr as_tibble
 parse_word <- function(xml_word_node){
-  word_node_list <- XML::xmlToList(xml_word_node)
+  word_node_list <- list(text=xml2::xml_text(xml_word_node),
+                         .attrs=xml2::xml_attrs(xml_word_node))
   word_node_list <- word_node_list[setdiff(names(word_node_list),".attrs")]
   word_node_list <- list(ocrx_word_tag=names(word_node_list), ocrx_word_value=list_to_vec(word_node_list))
   dplyr::as_tibble(c(parse_obj_attrs(xml_word_node), word_node_list))
 }
 
 #' @importFrom rlang !!!
-#' @importFrom XML xmlApply
+#' @importFrom xml2 xml_children
 #' @importFrom dplyr bind_rows mutate
 parse_obj <- function(l, f){
   obj_attr_list <- parse_obj_attrs(l)
-  obj_df <- dplyr::bind_rows(XML::xmlApply(l, f))
+  obj_df <- dplyr::bind_rows(lapply(xml_children(l), f))
   dplyr::mutate(obj_df, !!!(obj_attr_list))
 }
 

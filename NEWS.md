@@ -1,3 +1,8 @@
+# hocr 0.0.0.9001
+
+* Ditched dependency on XML, added dependency on xml2.
+* Added basic test to check dimensions of the exported data.
+
 # hocr 0.0.0.9000
 
 * Initial package release.

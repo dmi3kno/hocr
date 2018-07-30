@@ -12,10 +12,9 @@
 #'   tidy_hocr()
 #' }
 #' @export
-#' @importFrom XML xmlTreeParse xmlRoot
+#' @importFrom xml2 read_xml
 hocr_parse <- function(x){
-  XML::xmlTreeParse(x) %>%
-    XML::xmlRoot() %>%
+  xml2::read_xml(x) %>%
     parse_page()
 }
 

@@ -1,0 +1,19 @@
+  <div class='ocr_page' id='page_1' title='image ""; bbox 0 0 581 244; ppageno 0'>
+   <div class='ocr_carea' id='block_1_1' title="bbox 16 21 551 235">
+    <p class='ocr_par' id='par_1_1' lang='eng' title="bbox 16 21 551 235">
+     <span class='ocr_line' id='line_1_1' title="bbox 74 21 184 34; baseline 0 0; x_size 16.581633; x_descenders 3.5816326; x_ascenders 4.0238094"><span class='ocrx_word' id='word_1_1' title='bbox 74 21 129 34; x_wconf 80'><strong>Jeroen</strong></span> <span class='ocrx_word' id='word_1_2' title='bbox 136 21 184 34; x_wconf 90'><strong>Ooms</strong></span> 
+     </span>
+     <span class='ocr_line' id='line_1_2' title="bbox 17 85 216 98; baseline 0 -3; x_size 17.482758; x_descenders 3; x_ascenders 4.4827585"><span class='ocrx_word' id='word_1_3' title='bbox 17 85 68 98; x_wconf 59'>REp‘ymg</span> <span class='ocrx_word' id='word_1_4' title='bbox 73 86 85 95; x_wconf 73'><strong>m</strong></span> <span class='ocrx_word' id='word_1_5' title='bbox 91 85 141 96; x_wconf 60'>@dek</span> <span class='ocrx_word' id='word_1_6' title='bbox 147 85 216 98; x_wconf 48'>@guway</span> 
+     </span>
+     <span class='ocr_line' id='line_1_3' title="bbox 18 115 551 141; baseline 0 -6; x_size 24; x_descenders 4; x_ascenders 6"><span class='ocrx_word' id='word_1_7' title='bbox 18 115 113 141; x_wconf 88'>Nobody</span> <span class='ocrx_word' id='word_1_8' title='bbox 124 115 192 135; x_wconf 88'>needs</span> <span class='ocrx_word' id='word_1_9' title='bbox 202 115 315 135; x_wconf 85'>xmlToList</span> <span class='ocrx_word' id='word_1_10' title='bbox 325 116 336 139; x_wconf 90'>:)</span> <span class='ocrx_word' id='word_1_11' title='bbox 346 116 391 135; x_wconf 84'>Just</span> <span class='ocrx_word' id='word_1_12' title='bbox 402 115 458 135; x_wconf 89'>learn</span> <span class='ocrx_word' id='word_1_13' title='bbox 470 115 519 135; x_wconf 90'>how</span> <span class='ocrx_word' id='word_1_14' title='bbox 528 117 551 135; x_wconf 84'>to</span> 
+     </span>
+     <span class='ocr_line' id='line_1_4' title="bbox 17 147 345 173; baseline 0 -6; x_size 26; x_descenders 6; x_ascenders 6"><span class='ocrx_word' id='word_1_15' title='bbox 17 149 97 167; x_wconf 82'>extract</span> <span class='ocrx_word' id='word_1_16' title='bbox 106 147 143 167; x_wconf 83'>the</span> <span class='ocrx_word' id='word_1_17' title='bbox 154 147 204 167; x_wconf 84'>data</span> <span class='ocrx_word' id='word_1_18' title='bbox 214 147 263 167; x_wconf 88'>with</span> <span class='ocrx_word' id='word_1_19' title='bbox 274 147 345 173; x_wconf 26'>xpath‘</span> 
+     </span>
+     <span class='ocr_line' id='line_1_5' title="bbox 16 189 148 199; baseline 0 0; x_size 12.755102; x_descenders 2.7551019; x_ascenders 3.0952382"><span class='ocrx_word' id='word_1_20' title='bbox 16 189 40 199; x_wconf 64'>933</span> <span class='ocrx_word' id='word_1_21' title='bbox 45 189 65 199; x_wconf 87'>AM</span> <span class='ocrx_word' id='word_1_22' title='bbox 72 189 94 199; x_wconf 33'>730</span> <span class='ocrx_word' id='word_1_23' title='bbox 99 189 114 199; x_wconf 58'>Ju‘</span> <span class='ocrx_word' id='word_1_24' title='bbox 120 189 148 199; x_wconf 68'>2018</span> 
+     </span>
+     <span class='ocr_line' id='line_1_6' title="bbox 19 221 274 235; baseline 0.004 -1; x_size 26.785713; x_descenders 5.7857141; x_ascenders 6.5"><span class='ocrx_word' id='word_1_25' title='bbox 19 221 34 235; x_wconf 75'>o</span> <span class='ocrx_word' id='word_1_26' title='bbox 47 225 52 234; x_wconf 66'>2</span> <span class='ocrx_word' id='word_1_27' title='bbox 98 222 115 234; x_wconf 69'>u</span> <span class='ocrx_word' id='word_1_28' title='bbox 180 221 194 235; x_wconf 70'>o</span> <span class='ocrx_word' id='word_1_29' title='bbox 259 221 274 235; x_wconf 60'>a</span> 
+     </span>
+    </p>
+   </div>
+  </div>
+
