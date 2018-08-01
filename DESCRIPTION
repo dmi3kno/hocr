@@ -1,5 +1,5 @@
 Package: hocr
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Title: Text-to-tibble
 Description: Post-processing of hOCR files into tibble format. Functions for extracting structure from text images. 
 Authors@R: person("Dmytro", "Perepolkin", email = "dperepolkin@gmail.com", role = c("aut", "cre"))
@@ -10,7 +10,7 @@ ByteCompile: true
 URL: https://github.com/dmi3kno/hocr
 BugReports: https://github.com/dmi3kno/hocr/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Imports: 
     dplyr,
     magrittr,
@@ -22,4 +22,6 @@ Imports:
 Suggests: 
     tesseract,
     knitr,
-    testthat
+    testthat,
+    rmarkdown
+VignetteBuilder: knitr

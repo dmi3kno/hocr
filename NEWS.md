@@ -1,3 +1,8 @@
+# hocr 0.0.0.9002
+
+* Added bbox_slice functions and tests
+* Added separate_bbox_cols function
+
 # hocr 0.0.0.9001
 
 * Ditched dependency on XML, added dependency on xml2.
