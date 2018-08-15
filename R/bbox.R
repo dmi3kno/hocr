@@ -60,3 +60,55 @@ bbox_slice_xy <- function(bbox, x, y){
                                        bottom_right = paste(x, y, bb[3], bb[4]))})
 }
 
+#' Functions for aggregating bbox objects
+#' These functions can perform union and intersection operations on bbox objects
+#' @param bbox character vector bounding boxes to perform operation on
+#'
+#' @return bbox or missing value, if result is invalid bounding box
+#' @export
+#'
+#' @examples
+#' bbox_union(c("5 1 7 3", "2 4 6 8"))
+#' bbox_intersect(c("5 1 7 3", "2 4 6 8")) # should return NA
+#' bbox_intersect(c("5 1 7 3", "2 2 6 8"))
+#' @rdname bbox_aggregate
+#'
+
+bbox_union <- function(bbox){
+  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
+  m <- do.call(rbind, coord_list)
+  bbox_validate(paste(min(m[,1]), min(m[,2]), max(m[,3]), max(m[,4])))
+}
+
+#' @rdname bbox_aggregate
+#' @export
+bbox_intersect <- function(bbox){
+  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
+  m <- do.call(rbind, coord_list)
+  bbox_validate(paste(max(m[,1]), max(m[,2]), min(m[,3]), min(m[,4])))
+}
+
+#' Functions for validating bbox
+#' These functions can check whether specified bbox is valid, i.e. x1 <= x2 and y1 <= y2
+#' @param bbox character vector bounding boxes to validate
+#'
+#' @return a vector of logical values
+#' @export
+#'
+#' @examples
+#' bbox_is_valid("0 0 100 200")
+#' bbox_validate(c("5,4,6,3", "1,1,5,6"))
+#' @rdname bbox_valid
+#'
+bbox_is_valid <- function(bbox){
+  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
+  sapply(coord_list, function(x) x[3]>=x[1] & x[4]>=x[2])
+}
+
+#' @rdname bbox_valid
+#' @return original vector with NA for invalid bboxes
+#' @export
+bbox_validate <- function(bbox){
+  ifelse(bbox_is_valid(bbox), bbox, NA_character_)
+}
+
