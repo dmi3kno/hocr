@@ -6,12 +6,15 @@
 \title{Functions for aggregating bbox objects
 These functions can perform union and intersection operations on bbox objects}
 \usage{
-bbox_union(bbox)
+bbox_union(bbox, bbox2 = NULL)
 
-bbox_intersect(bbox)
+bbox_intersect(bbox, bbox2 = NULL)
 }
 \arguments{
-\item{bbox}{character vector bounding boxes to perform operation on}
+\item{bbox}{character vector of bounding boxes to perform operation on}
+
+\item{bbox2}{optional character vector of bounding boxes to element-wise aggregation with \code{bbox}.
+If specified, needs to be length 1 or equal in length to \code{bbox}.}
 }
 \value{
 bbox or missing value, if result is invalid bounding box
@@ -22,6 +25,7 @@ These functions can perform union and intersection operations on bbox objects
 }
 \examples{
 bbox_union(c("5 1 7 3", "2 4 6 8"))
+bbox_union(c("5 1 7 3", "2 4 6 8"), c("1 1 1 1"))
 bbox_intersect(c("5 1 7 3", "2 4 6 8")) # should return NA
-bbox_intersect(c("5 1 7 3", "2 2 6 8"))
+bbox_intersect("5 1 7 3", "2 2 6 8")
 }

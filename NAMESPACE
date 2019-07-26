@@ -3,6 +3,8 @@
 export("%>%")
 export(bbox_intersect)
 export(bbox_is_valid)
+export(bbox_pad_height)
+export(bbox_pad_width)
 export(bbox_slice_x)
 export(bbox_slice_xy)
 export(bbox_slice_y)
