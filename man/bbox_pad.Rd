@@ -17,9 +17,7 @@ bbox_pad_height(bbox, word, n = 0.5, side = "both")
 
 \item{n}{integer number of symbols to add}
 
-\item{side}{"left", "right" or "both" which side to pad}
-
-\item{side}{"up", "down" or "both" which side to pad}
+\item{side}{"left", "right" (for \code{bbox_pad_width()}), "up", "down" (for \code{bbox_pad_height()}) or "both" which side to pad}
 }
 \value{
 a vector of validated bboxes

@@ -18,6 +18,7 @@ Convert bbox to magick-geometry
 \examples{
 # area from c(0,0) to c(100,200) counting from top left
 bbox_to_geometry("0 0 100 200")
+bbox_to_geometry(c("0 0 100 200", "100,100,200, 200"))
 
 }
 \seealso{

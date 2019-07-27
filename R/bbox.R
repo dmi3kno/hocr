@@ -1,3 +1,8 @@
+bbox_to_matrix <- function(bbox){
+  bb_lst <- lapply(strsplit(bbox, ",\\s?|\\s+"), as.numeric)
+  do.call(rbind, bb_lst)
+}
+
 #' Convert bbox to magick-geometry
 #'
 #' @param x character vector with bounding boxes (top-left coordinates). Expects four integers separated by comma or space
@@ -10,10 +15,11 @@
 #' @examples
 #' # area from c(0,0) to c(100,200) counting from top left
 #' bbox_to_geometry("0 0 100 200")
+#' bbox_to_geometry(c("0 0 100 200", "100,100,200, 200"))
 #'
 bbox_to_geometry <- function(x){
-  coord_list <- lapply(strsplit(x, ",| "), as.numeric)
-  sapply(coord_list, function(x){paste0(x[3] - x[1], "x", x[4] - x[2], "+", x[1], "+", x[2])})
+  m <- bbox_to_matrix(x)
+  paste0(m[,3] - m[,1], "x", m[,4] - m[,2], "+", m[,1], "+", m[,2])
 }
 
 
@@ -27,37 +33,40 @@ bbox_to_geometry <- function(x){
 #'
 #' @examples
 #' bbox_slice_x("0 0 100 200", 80)
+#' bbox_slice_x(c("0 0 100 200", "100 100 200 200"), c(80, 150))
 #'
 #' @rdname bbox_slice
 #'
 bbox_slice_x <- function(bbox, x){
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  lapply(coord_list, function(bb){list(left=paste(bb[1], bb[2], x-1, bb[4]),
-                                      right=paste(x, bb[2], bb[3], bb[4]))})
+  m <- bbox_to_matrix(bbox)
+  list(left=bbox_validate(paste(m[,1], m[,2], x-1, m[,4])),
+       right=bbox_validate(paste(x, m[,2], m[,3], m[,4])))
 }
 
 #' @export
 #'
 #' @examples
 #' bbox_slice_y("0 0 100 200", 120)
+#' bbox_slice_y(c("0 0 100 200", "100 100 200 200"), c(120,150))
 #' @rdname bbox_slice
 bbox_slice_y <- function(bbox, y){
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  lapply(coord_list, function(bb){list(top=paste(bb[1], bb[2], bb[3], y-1),
-                                   bottom=paste(bb[1], y, bb[3], bb[4]))})
+  m <- bbox_to_matrix(bbox)
+  list(top=bbox_validate(paste(m[,1], m[,2], m[,3], y-1)),
+       bottom=bbox_validate(paste(m[,1], y, m[,3], m[,4])))
 }
 
 #' @export
 #'
 #' @examples
 #' bbox_slice_xy("0 0 100 200", 50, 100)
+#' bbox_slice_xy(c("0 0 100 200", "100,100, 200, 200"), c(50, 150), c(100, 150))
 #' @rdname bbox_slice
 bbox_slice_xy <- function(bbox, x, y){
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  lapply(coord_list, function(bb){list(top_left = paste(bb[1], bb[2], x-1, y-1),
-                                       top_right = paste(x, bb[2], bb[3], y-1),
-                                       bottom_left = paste(bb[1], y, x-1, bb[4]),
-                                       bottom_right = paste(x, y, bb[3], bb[4]))})
+  m <- bbox_to_matrix(bbox)
+  list(top_left  =bbox_validate(paste(m[,1], m[,2], x-1, y-1)),
+       top_right =bbox_validate(paste(x, m[,2], m[,3], y-1)),
+       bottom_left=bbox_validate(paste(m[,1], y, x-1, m[,4])),
+       bottom_right=bbox_validate(paste(x, y, m[,3], m[,4])))
 }
 
 #' Functions for aggregating bbox objects
@@ -84,12 +93,10 @@ bbox_union <- function(bbox, bbox2=NULL){
     bbox2 <- rep.int(bbox2, times=length(bbox))
   stopifnot(length(bbox)==length(bbox2) || is.null(bbox2))
 
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  m <- do.call(rbind, coord_list)
+  m <- bbox_to_matrix(bbox)
 
   if(!is.null(bbox2)){
-    coord_list2 <- lapply(strsplit(bbox2, ",| "), as.numeric)
-    m2 <- do.call(rbind, coord_list2)
+    m2 <- bbox_to_matrix(bbox2)
     return(bbox_validate(paste(pmin(m[,1], m2[,1]), pmin(m[,2], m2[,2]),
                                pmax(m[,3], m2[,3]), pmax(m[,4], m2[,4]))))
   }
@@ -105,12 +112,10 @@ bbox_intersect <- function(bbox, bbox2=NULL){
   if(length(bbox2)==1L)
     bbox2 <- rep.int(bbox2, times=length(bbox))
 
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  m <- do.call(rbind, coord_list)
+  m <- bbox_to_matrix(bbox)
 
   if(!is.null(bbox2)){
-    coord_list2 <- lapply(strsplit(bbox2, ",| "), as.numeric)
-    m2 <- do.call(rbind, coord_list2)
+    m2 <- bbox_to_matrix(bbox2)
     return(bbox_validate(paste(pmax(m[,1], m2[,1]), pmax(m[,2], m2[,2]),
                                pmin(m[,3], m2[,3]), pmin(m[,4], m2[,4]))))
   }
@@ -131,8 +136,8 @@ bbox_intersect <- function(bbox, bbox2=NULL){
 #' @rdname bbox_valid
 #'
 bbox_is_valid <- function(bbox){
-  coord_list <- lapply(strsplit(bbox, ",| "), as.numeric)
-  sapply(coord_list, function(x) x[3]>=x[1] & x[4]>=x[2])
+  m <- bbox_to_matrix(bbox)
+  m[,3]>=m[,1] & m[,4]>=m[,2]
 }
 
 #' @rdname bbox_valid
@@ -147,7 +152,7 @@ bbox_validate <- function(bbox){
 #' @param bbox character vector of bounding boxes to pad
 #' @param word character vector of words contained in bboxes
 #' @param n integer number of symbols to add
-#' @param side "left", "right" or "both" which side to pad
+#' @param side "left", "right" (for `bbox_pad_width()`), "up", "down" (for `bbox_pad_height()`) or "both" which side to pad
 #'
 #' @return a vector of validated bboxes
 #' @rdname bbox_pad
@@ -157,24 +162,20 @@ bbox_validate <- function(bbox){
 #' bbox_pad_height("0 0 10 20", "There")
 #' @export
 bbox_pad_width <- function(bbox, word, n=1, side="both"){
-  bb_lst <- lapply(strsplit(bbox, ",| "), as.numeric)
-  m <- do.call(rbind, bb_lst)
+  m <- bbox_to_matrix(bbox)
   p <- (m[,3]-m[,1])/nchar(word)
   if(side=="left"|side=="both")
     m[,1] <- m[,1]-p*n
   if(side=="right"|side=="both")
     m[,3] <- m[,3]+p*n
 
-  bbox_validate(paste(m[,1], m[,2], m[,3],m[,4]))
+  bbox_validate(paste(m[,1], m[,2], m[,3], m[,4]))
 }
 
 #' @rdname bbox_pad
-#' @param side "up", "down" or "both" which side to pad
 #' @export
 bbox_pad_height <- function(bbox, word, n=0.5, side="both"){
-
-  bb_lst <- lapply(strsplit(bbox, ",| "), as.numeric)
-  m <- do.call(rbind, bb_lst)
+  m <- bbox_to_matrix(bbox)
   n_lines <-  lengths(regmatches(word, gregexpr("\n", word)))+1
   p <- (m[,4]-m[,2])/n_lines
   if(side=="up"|side=="both")
@@ -184,3 +185,5 @@ bbox_pad_height <- function(bbox, word, n=0.5, side="both"){
 
   bbox_validate(paste(m[,1], m[,2], m[,3],m[,4]))
 }
+
+

@@ -27,7 +27,10 @@ These functions are not vectorized and should be used to compute
 }
 \examples{
 bbox_slice_x("0 0 100 200", 80)
+bbox_slice_x(c("0 0 100 200", "100 100 200 200"), c(80, 150))
 
 bbox_slice_y("0 0 100 200", 120)
+bbox_slice_y(c("0 0 100 200", "100 100 200 200"), c(120,150))
 bbox_slice_xy("0 0 100 200", 50, 100)
+bbox_slice_xy(c("0 0 100 200", "100,100, 200, 200"), c(50, 150), c(100, 150))
 }
