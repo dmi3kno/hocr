@@ -186,4 +186,18 @@ bbox_pad_height <- function(bbox, word, n=0.5, side="both"){
   bbox_validate(paste(m[,1], m[,2], m[,3],m[,4]))
 }
 
-
+#' Functions for calculating with bbox
+#' These functions can calculate various metrix of bbox
+#' @param bbox character vector of bounding boxes to pad
+#'
+#' @return a vector of validated bboxes
+#' @rdname bbox_math
+#'
+#' @examples
+#' bbox_area("100 100 200 200")
+#'
+#' @export
+bbox_area <- function(bbox){
+  m <- bbox_to_matrix(bbox)
+  (m[,3]-m[,1])*(m[,4]-m[,2])
+}
