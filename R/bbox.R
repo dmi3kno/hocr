@@ -220,3 +220,42 @@ bbox_area <- function(bbox){
   m <- bbox_to_matrix(bbox)
   (m[,3]-m[,1])*(m[,4]-m[,2])
 }
+
+#' Functions for updating certain coordinates of bbox
+#' These functions can modify a vector of bbox
+#' @param bbox character vector of bounding boxes to update
+#' @param x1 scalar or numeric vector to update bbox with
+#' @param y1 scalar or numeric vector to update bbox with
+#' @param x2 scalar or numeric vector to update bbox with
+#' @param y2 scalar or numeric vector to update bbox with
+#'
+#' @return a vector of updated and validated bboxes
+#' @rdname bbox_modify
+#'
+#' @examples
+#' bbox_reset(bbox=c("100 100 200 200", "300 400 500 600"), x2=800)
+#'
+#' @export
+bbox_reset <- function(bbox, x1=NULL, y1=NULL, x2=NULL, y2=NULL){
+  if(is.null(x1) && is.null(y1) && is.null(x2) && is.null(y2))
+    return(bbox)
+  if(length(x1)==4 && is.null(y1) && is.null(x2) && is.null(y2)){
+    y1 <- x1[[2]]; x2 <- x1[[3]]; y2 <- x1[[4]]; x1 <- x1[[1]]}
+
+  if(length(x1)==1) x1 <- rep.int(x1, times = length(bbox))
+  if(length(y1)==1) x1 <- rep.int(y1, times = length(bbox))
+  if(length(x2)==1) x1 <- rep.int(x2, times = length(bbox))
+  if(length(y2)==1) x1 <- rep.int(y2, times = length(bbox))
+
+  m <- bbox_to_matrix(bbox)
+  if(!is.null(x1))
+    m[,1] <- x1
+  if(!is.null(y1))
+    m[,2] <- y1
+  if(!is.null(x2))
+    m[,3] <- x2
+  if(!is.null(y2))
+    m[,4] <- y2
+
+  bbox_validate(paste(m[,1], m[,2], m[,3],m[,4]))
+}
