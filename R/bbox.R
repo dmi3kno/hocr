@@ -243,11 +243,12 @@ bbox_reset <- function(bbox, x1=NULL, y1=NULL, x2=NULL, y2=NULL){
     y1 <- x1[[2]]; x2 <- x1[[3]]; y2 <- x1[[4]]; x1 <- x1[[1]]}
 
   if(length(x1)==1) x1 <- rep.int(x1, times = length(bbox))
-  if(length(y1)==1) x1 <- rep.int(y1, times = length(bbox))
-  if(length(x2)==1) x1 <- rep.int(x2, times = length(bbox))
-  if(length(y2)==1) x1 <- rep.int(y2, times = length(bbox))
+  if(length(y1)==1) y1 <- rep.int(y1, times = length(bbox))
+  if(length(x2)==1) x2 <- rep.int(x2, times = length(bbox))
+  if(length(y2)==1) y2 <- rep.int(y2, times = length(bbox))
 
   m <- bbox_to_matrix(bbox)
+
   if(!is.null(x1))
     m[,1] <- x1
   if(!is.null(y1))
