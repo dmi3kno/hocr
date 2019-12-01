@@ -123,6 +123,25 @@ bbox_intersect <- function(bbox, bbox2=NULL){
   bbox_validate(paste(max(m[,1]), max(m[,2]), min(m[,3]), min(m[,4])))
 }
 
+#' Predicate functions for matching bboxes
+#' These functions can check whether intersection operation on bbox objects returns non-NA result
+#' @param bbox character vector of bounding boxes to perform operation on
+#' @param bbox2 optional character vector of bounding boxes to element-wise aggregation with `bbox`.
+#' If specified, needs to be length 1 or equal in length to `bbox`.
+#'
+#' @return logical value of whether or not the pair of bboxes intersect
+#' @export
+#'
+#' @examples
+#' bbox_intersects(c("5 1 7 3", "2 4 6 8")) # should return FALSE
+#' bbox_intersects("5 1 7 3", "2 2 6 8") # should return TRUE
+#' @rdname bbox_predicates
+#'
+bbox_intersects <- function(bbox, bbox2=NULL){
+  bbox_i <- bbox_intersect(bbox, bbox2)
+  !is.na(bbox_i)
+}
+
 #' Functions for validating bbox
 #' These functions can check whether specified bbox is valid, i.e. x1 <= x2 and y1 <= y2
 #' @param bbox character vector bounding boxes to validate
