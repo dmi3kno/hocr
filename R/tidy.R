@@ -14,7 +14,7 @@
 #' }
 #' @export
 #' @importFrom tidyr separate
-#' @importFrom dplyr rename mutate_at vars funs
+#' @importFrom dplyr rename mutate_at vars funs contains
 tidy_tesseract <- function(df){
 
   str_deprefix <- function(x){
@@ -34,7 +34,7 @@ tidy_tesseract <- function(df){
     dplyr::mutate_at(dplyr::vars(ocrx_word_conf, ocr_line_xbaseline, ocr_line_ybaseline, ocr_line_xsize,
                                  ocr_line_xdescenders, ocr_line_xascenders, ocr_page_no),
                      dplyr::funs(as.numeric)) %>%
-    dplyr::mutate_at(vars(contains('id')), funs(
+    dplyr::mutate_at(dplyr::vars(dplyr::contains('id')), funs(
                      as.integer(gsub(pattern=".+_(?=\\d+$)", replacement = "", x=., perl = TRUE))))
 }
 
