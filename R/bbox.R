@@ -87,7 +87,7 @@ bbox_slice_xy <- function(bbox, x, y){
 #'
 
 bbox_union <- function(bbox, bbox2=NULL){
-  if(length(bbox)==1L)
+  if(length(bbox)==1L && !is.null(bbox2))
     bbox <- rep.int(bbox, times=length(bbox2))
   if(length(bbox2)==1L)
     bbox2 <- rep.int(bbox2, times=length(bbox))
@@ -107,7 +107,7 @@ bbox_union <- function(bbox, bbox2=NULL){
 #' @rdname bbox_aggregate
 #' @export
 bbox_intersect <- function(bbox, bbox2=NULL){
-  if(length(bbox)==1L)
+  if(length(bbox)==1L && !is.null(bbox2))
     bbox <- rep.int(bbox, times=length(bbox2))
   if(length(bbox2)==1L)
     bbox2 <- rep.int(bbox2, times=length(bbox))
