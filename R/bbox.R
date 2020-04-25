@@ -72,6 +72,7 @@ bbox_slice_xy <- function(bbox, x, y){
 #' Functions for aggregating bbox objects
 #' These functions can perform union and intersection operations on bbox objects
 #' @param bbox character vector of bounding boxes to perform operation on
+#' @param fx1,fy1,fx2,fy2 functions to use for aggregating x1, y1, x2, y2, respectively. Defaults to `min` for x1,y1 and `max` for x2,y2
 #' @param bbox2 optional character vector of bounding boxes to element-wise aggregation with `bbox`.
 #' If specified, needs to be length 1 or equal in length to `bbox`.
 #'
@@ -80,28 +81,29 @@ bbox_slice_xy <- function(bbox, x, y){
 #'
 #' @examples
 #' bbox_union(c("5 1 7 3", "2 4 6 8"))
-#' bbox_union(c("5 1 7 3", "2 4 6 8"), c("1 1 1 1"))
+#' bbox_union2(c("5 1 7 3", "2 4 6 8"), c("1 1 1 1"))
 #' bbox_intersect(c("5 1 7 3", "2 4 6 8")) # should return NA
 #' bbox_intersect("5 1 7 3", "2 2 6 8")
 #' @rdname bbox_aggregate
 #'
 
-bbox_union <- function(bbox, bbox2=NULL){
+bbox_union <- function(bbox, fx1=min, fy1=min, fx2=max, fy2=max){
+  m <- bbox_to_matrix(bbox)
+  bbox_validate(paste(fx1(m[,1]), fy1(m[,2]), fx2(m[,3]), fy2(m[,4])))
+}
+
+#' @rdname bbox_aggregate
+#' @export
+bbox_union2 <- function(bbox, bbox2){
   if(length(bbox)==1L && !is.null(bbox2))
     bbox <- rep.int(bbox, times=length(bbox2))
   if(length(bbox2)==1L)
     bbox2 <- rep.int(bbox2, times=length(bbox))
-  stopifnot(length(bbox)==length(bbox2) || is.null(bbox2))
-
-  m <- bbox_to_matrix(bbox)
-
-  if(!is.null(bbox2)){
+  stopifnot(length(bbox)==length(bbox2))
+    m <- bbox_to_matrix(bbox)
     m2 <- bbox_to_matrix(bbox2)
     return(bbox_validate(paste(pmin(m[,1], m2[,1]), pmin(m[,2], m2[,2]),
                                pmax(m[,3], m2[,3]), pmax(m[,4], m2[,4]))))
-  }
-
-  bbox_validate(paste(min(m[,1]), min(m[,2]), max(m[,3]), max(m[,4])))
 }
 
 #' @rdname bbox_aggregate

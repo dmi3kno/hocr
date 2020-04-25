@@ -1,6 +1,8 @@
 # hocr 0.0.0.9002
 
 * Added bbox_slice functions and tests
+* Spin off bbox_union2 for pairs of bboxes
+* Introduce flexible aggregation functions for bbox_union
 * Added separate_bbox_cols function
 
 # hocr 0.0.0.9001

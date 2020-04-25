@@ -2,16 +2,21 @@
 % Please edit documentation in R/bbox.R
 \name{bbox_union}
 \alias{bbox_union}
+\alias{bbox_union2}
 \alias{bbox_intersect}
 \title{Functions for aggregating bbox objects
 These functions can perform union and intersection operations on bbox objects}
 \usage{
-bbox_union(bbox, bbox2 = NULL)
+bbox_union(bbox, fx1 = min, fy1 = min, fx2 = max, fy2 = max)
+
+bbox_union2(bbox, bbox2)
 
 bbox_intersect(bbox, bbox2 = NULL)
 }
 \arguments{
 \item{bbox}{character vector of bounding boxes to perform operation on}
+
+\item{fx1, fy1, fx2, fy2}{functions to use for aggregating x1, y1, x2, y2, respectively. Defaults to \code{min} for x1,y1 and \code{max} for x2,y2}
 
 \item{bbox2}{optional character vector of bounding boxes to element-wise aggregation with \code{bbox}.
 If specified, needs to be length 1 or equal in length to \code{bbox}.}
@@ -25,7 +30,7 @@ These functions can perform union and intersection operations on bbox objects
 }
 \examples{
 bbox_union(c("5 1 7 3", "2 4 6 8"))
-bbox_union(c("5 1 7 3", "2 4 6 8"), c("1 1 1 1"))
+bbox_union2(c("5 1 7 3", "2 4 6 8"), c("1 1 1 1"))
 bbox_intersect(c("5 1 7 3", "2 4 6 8")) # should return NA
 bbox_intersect("5 1 7 3", "2 2 6 8")
 }
